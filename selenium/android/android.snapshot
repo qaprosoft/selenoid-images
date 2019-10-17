@@ -1,0 +1,13 @@
+adb -s "emulator-5554" install -r "/usr/bin/com.android.chrome_76.0.3809.132-380913215_minAPI19.apk"
+rm /usr/bin/com.android.chrome_76.0.3809.132-380913215_minAPI19.apk
+cat /root/.emulator_console_auth_token
+telnet localhost 5554
+auth ...
+avd snapshot del default_boot
+avd snapshot save default
+exit
+
+rm -rf /root/.android/avd/android8.1-1.avd/snapshots/default_boot
+adb -s "emulator-5554" emu kill -2
+rm -f /tmp/.X99-lock
+vi /entrypoint.sh (add -snapshot default -memory 4096)
