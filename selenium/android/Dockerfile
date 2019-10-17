@@ -9,16 +9,16 @@ RUN \
     GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" && \
     upx /devtools/devtools
 
-FROM ubuntu:18.04
+FROM ubuntu:16.04
 
 ARG APPIUM_VERSION="1.8.1"
 
 RUN \
-    apt update && \
-    apt remove -y libcurl4 && \
-    apt install -y apt-transport-https ca-certificates tzdata locales libcurl4 curl gnupg && \
+    apt-get update && \
+    apt-get remove -y libcurl4-openssl-dev && \
+    apt-get install -y apt-transport-https ca-certificates tzdata locales libcurl4-openssl-dev curl gnupg libxcomposite-dev libxcursor-dev libasound2 && \
 	curl --silent --location https://deb.nodesource.com/setup_10.x | bash - && \
-	apt install -y --no-install-recommends \
+	apt-get install -y --no-install-recommends \
 	    curl \
 	    iproute2 \
 	    nodejs \
@@ -26,6 +26,8 @@ RUN \
 	    unzip \
 	    xvfb \
 	    libpulse0 \
+            telnet \
+            vim \
         fluxbox \
         x11vnc \
         feh \
