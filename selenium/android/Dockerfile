@@ -72,8 +72,10 @@ RUN \
 	    avdmanager create avd -n "$AVD_NAME" -k "$EMULATOR_IMAGE" --abi x86 --sdcard /sdcard.img \
     ) && \
 	ldconfig && \
-	resize2fs /root/.android/avd/$AVD_NAME.avd/userdata.img "$USERDATA_SIZE"M && \
-	mv /root/.android/avd/$AVD_NAME.avd/userdata.img /root/.android/avd/$AVD_NAME.avd/userdata-qemu.img && \
+	( \
+	    resize2fs /root/.android/avd/$AVD_NAME.avd/userdata.img "$USERDATA_SIZE"M || \
+	    /opt/android-sdk-linux/emulator/qemu-img resize -f raw /root/.android/avd/$AVD_NAME.avd/userdata.img "$USERDATA_SIZE"M \
+    ) && \
 	rm /opt/android-sdk-linux/system-images/$PLATFORM/$EMULATOR_IMAGE_TYPE/x86/userdata.img
 
 COPY emulator-snapshot.sh tmp/chromedriver* *.apk /usr/bin/
