@@ -37,6 +37,8 @@ RUN \
     rm -Rf /tmp/* && rm -Rf /var/lib/apt/lists/*
 
 RUN cd / && npm install --prefix ./opt/ appium@$APPIUM_VERSION
+RUN npm i io.appium.settings
+RUN npm i appium-uiautomator2-server
 
 COPY android.conf /etc/ld.so.conf.d/
 COPY fluxbox/aerokube /usr/share/fluxbox/styles/
